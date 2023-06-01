@@ -6,11 +6,11 @@ namespace ProEventos.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EventoController : ControllerBase
+public class EventosController : ControllerBase
 {
     private readonly DataContext _options;
 
-    public EventoController(DataContext options)
+    public EventosController(DataContext options)
     {
         _options = options;
     }

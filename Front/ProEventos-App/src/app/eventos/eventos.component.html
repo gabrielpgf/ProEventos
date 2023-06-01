@@ -1,0 +1,12 @@
+<h1>Componente de Eventos</h1>
+
+<!-- <button (click)="getEventos()">Mostrar Eventos</button> -->
+<div *ngFor="let e of eventos">
+  <p>Tema do Evento: {{e.tema}}</p>
+  <p>Local do Evento: {{e.local}}</p>
+  <p>Data do Evento: {{e.dataEvento}}</p>
+  <p>Quantidade de Pessoas: {{e.qtdPessoas}}</p>
+  <p>Lote: {{e.lote}}</p>
+  <span><img src="{{e.imagemURL}}" alt=""></span>
+  <hr/>
+</div>
