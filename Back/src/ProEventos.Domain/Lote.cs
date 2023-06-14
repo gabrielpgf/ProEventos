@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace ProEventos.Domain
 {
     public class Lote
@@ -13,6 +8,7 @@ namespace ProEventos.Domain
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
         public int Quantidade { get; set; }
+        //[ForeignKey("EventosDetalhes")]
         public int EventoId { get; set; }
         public Evento Evento { get; set; }
     }

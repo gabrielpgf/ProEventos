@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProEventos.Application.Dtos;
 using ProEventos.Application.Interfaces;
 using ProEventos.Domain;
 
@@ -21,7 +22,7 @@ public class EventosController : ControllerBase
         try
         {
             var eventos = await _eventoService.GetAllEventosAsync(true);
-            if (eventos == null) return NotFound("Nenhum evento encontrado");
+            if (eventos == null) return NoContent();            
 
             return Ok(eventos);
         }
@@ -36,8 +37,8 @@ public class EventosController : ControllerBase
     {
         try
         {
-            var eventoPorId = await _eventoService.GetEventoById(id, false);
-            if (eventoPorId == null) return NotFound("Nenhum evento com este código encontrado.");
+            var eventoPorId = await _eventoService.GetEventoByIdAsync(id, false);
+            if (eventoPorId == null) return NoContent();
             return Ok(eventoPorId);
         }
         catch (Exception e)
@@ -52,7 +53,7 @@ public class EventosController : ControllerBase
         try
         {
             var eventoPorTema = await _eventoService.GetAllEventosByTemaAsync(tema, false);
-            if (eventoPorTema == null) return NotFound("Eventos por tema não encontrados.");
+            if (eventoPorTema == null) return NoContent();
             return Ok(eventoPorTema);
         }
         catch (Exception e)
@@ -62,7 +63,7 @@ public class EventosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Evento model)
+    public async Task<IActionResult> Post(EventoDto model)
     {
         try
         {
@@ -78,12 +79,12 @@ public class EventosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, Evento model)
+    public async Task<IActionResult> Put(int id, EventoDto model)
     {
         try
         {
             var evento = await _eventoService.UpdateEvento(id, model);
-            if (evento == null) return BadRequest("Erro ao tentar recuperar evento por este código");            
+            if (evento == null) return BadRequest("Erro ao tentar recuperar evento por este código");
 
             return Ok(evento);
         }
@@ -98,10 +99,13 @@ public class EventosController : ControllerBase
     {
         try
         {
-            return await _eventoService.DeleteEvento(id) ? Ok("Evento deletado") : BadRequest("Não foi possível deletar os dados deste evento");                               
+            var eventoPorId = await _eventoService.GetEventoByIdAsync(id, false);
+            if (eventoPorId == null) return NoContent();
+
+            return await _eventoService.DeleteEvento(id) ? Ok("Evento deletado") : throw new Exception("Ocorreu um erro ao deletar este evento:");
         }
         catch (Exception e)
-        {            
+        {
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar deletar eventos. Mensagem: {e.Message}");
         }
     }
