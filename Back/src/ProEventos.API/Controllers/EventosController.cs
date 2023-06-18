@@ -22,7 +22,7 @@ public class EventosController : ControllerBase
         try
         {
             var eventos = await _eventoService.GetAllEventosAsync(true);
-            if (eventos == null) return NoContent();            
+            if (eventos == null) return NoContent();
 
             return Ok(eventos);
         }
@@ -102,7 +102,7 @@ public class EventosController : ControllerBase
             var eventoPorId = await _eventoService.GetEventoByIdAsync(id, false);
             if (eventoPorId == null) return NoContent();
 
-            return await _eventoService.DeleteEvento(id) ? Ok("Evento deletado") : throw new Exception("Ocorreu um erro ao deletar este evento:");
+            return await _eventoService.DeleteEvento(id) ? Ok(new { message = "Deletado" }) : throw new Exception("Ocorreu um erro ao deletar este evento:");
         }
         catch (Exception e)
         {

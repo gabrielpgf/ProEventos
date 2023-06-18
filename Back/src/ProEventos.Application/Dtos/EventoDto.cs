@@ -6,10 +6,10 @@ namespace ProEventos.Application.Dtos
     {
         public int Id { get; set; }
         public string Local { get; set; }
-        [Display(Name = "data do evento"),
-        Required(ErrorMessage = "O campo {0} é obrigatório."),
-        DataType(DataType.DateTime, ErrorMessage = "O campo {0} precisa estar no formato de data.")]
-        public string DataEvento { get; set; }
+        // [Display(Name = "data do evento"),
+        // Required(ErrorMessage = "O campo {0} é obrigatório.")]
+        // DataType(DataType.DateTime, ErrorMessage = "O campo {0} precisa estar no formato de data.")]
+        public DateTime DataEvento { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório."),
         StringLength(50, MinimumLength = 3, ErrorMessage = "O campo {0} deve possuir no mínimo {2} e no máximo {1} caracteres.")]
         public string Tema { get; set; }

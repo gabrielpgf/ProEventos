@@ -12,8 +12,8 @@ namespace ProEventos.Domain
         public DateTime? DataEvento { get; set; }
 
         //NÃO MAPEIA ESTE CAMPO PARA SER UMA COLUNA DA TABELA EVENTO 
-        [NotMapped]
-        public int ContagemDias { get; set; }
+        // [NotMapped]
+        // public int ContagemDias { get; set; }
         [Required]
         public string Tema { get; set; }
         public int QtdPessoas { get; set; }        
