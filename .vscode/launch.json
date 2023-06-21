@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Back/src/ProEventos.API/bin/Debug/net5.0/ProEventos.API.dll",
+            "program": "${workspaceFolder}/Back/src/ProEventos.API/bin/Debug/net6.0/ProEventos.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Back/src/ProEventos.API",
             "stopAtEntry": false,

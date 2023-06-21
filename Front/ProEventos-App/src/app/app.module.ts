@@ -12,10 +12,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 
-
 import { ToastrModule } from 'ngx-toastr';
 
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { NavComponent } from './shared/nav/nav.component';
 
 import { EventoService } from './services/evento.service';
+import { LoteService } from './services/lote.service';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
 import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
@@ -54,7 +55,7 @@ defineLocale('pt-br', ptBrLocale);
     EventoListaComponent,
     UserComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,12 +74,13 @@ defineLocale('pt-br', ptBrLocale);
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       progressBar: true,
-      progressAnimation: 'decreasing'
+      progressAnimation: 'decreasing',
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxCurrencyModule,
   ],
-  providers: [EventoService],
+  providers: [EventoService, LoteService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
