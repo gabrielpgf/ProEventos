@@ -51,7 +51,7 @@
           <img
             [collapse]="!showImage"
             [isAnimated]="true"
-            src="../../assets/{{ evento.imagemURL }}"
+            [src]="retornaImagem(evento.imagemURL)"
             [style.width.px]="widthImg"
             [style.margin.px]="marginImg"
           />
