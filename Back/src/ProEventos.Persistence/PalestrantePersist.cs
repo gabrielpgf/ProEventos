@@ -17,11 +17,11 @@ namespace ProEventos.Persistence
         {
             _context = context;
         }
-        
+
         public async Task<Palestrante[]> GetAllPalestrantesAsync(bool includeEventos = false)
         {
             IQueryable<Palestrante> query = _context.Palestrantes
-                .Include(p => p.RedesSociais);                
+                .Include(p => p.RedesSociais);
 
             if (includeEventos)
             {
@@ -37,7 +37,7 @@ namespace ProEventos.Persistence
 
         public async Task<Palestrante[]> GetAllPalestrantesByNomeAsync(string nome, bool includeEventos = false)
         {
-            IQueryable<Palestrante> query = _context.Palestrantes                
+            IQueryable<Palestrante> query = _context.Palestrantes
                 .Include(p => p.RedesSociais);
 
             if (includeEventos)
@@ -47,7 +47,7 @@ namespace ProEventos.Persistence
                     .ThenInclude(pe => pe.Evento);
             }
 
-            query = query.OrderBy(p => p.Id).Where(p => p.Nome.ToLower().Contains(nome.ToLower()));
+            query = query.OrderBy(p => p.Id).Where(p => p.User.PrimeiroNome.ToLower().Contains(nome.ToLower()) || p.User.UltimoNome.ToLower().Contains(nome.ToLower()));
 
             return await query.AsNoTracking().ToArrayAsync();
         }
