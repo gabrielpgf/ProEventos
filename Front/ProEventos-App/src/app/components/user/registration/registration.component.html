@@ -12,7 +12,7 @@
   </div>
 
   <div class="col-md-6">
-    <form [formGroup]="form" class="p-1">
+    <form [formGroup]="form" class="p-1" (ngSubmit)="register()">
       <div class="pb-2 d-block d-md-none">
         <h3 class="border-bottom">Cadastro de Usuário</h3>
       </div>
@@ -78,16 +78,16 @@
         <input
           class="form-control"
           [ngClass]="{
-            'is-invalid': f.nomeUsuario.errors && f.nomeUsuario.touched
+            'is-invalid': f.userName.errors && f.userName.touched
           }"
           type="text"
           placeholder="Insira o nome de Usuário"
-          formControlName="nomeUsuario"
+          formControlName="userName"
         />
-        <div *ngIf="f.nomeUsuario.errors?.required" class="invalid-feedback">
+        <div *ngIf="f.userName.errors?.required" class="invalid-feedback">
           Nome de usuário é obrigatório.
         </div>
-        <div *ngIf="f.nomeUsuario.errors?.minlength" class="invalid-feedback">
+        <div *ngIf="f.userName.errors?.minlength" class="invalid-feedback">
           Nome de usuário ter pelo menos 7 caracteres.
         </div>
       </div>
@@ -96,16 +96,18 @@
           <label for="">Senha:</label>
           <input
             class="form-control"
-            [ngClass]="{ 'is-invalid': f.senha.errors && f.senha.touched }"
+            [ngClass]="{
+              'is-invalid': f.password.errors && f.password.touched
+            }"
             type="password"
             placeholder="Digite uma Senha"
-            formControlName="senha"
+            formControlName="password"
           />
-          <div *ngIf="f.senha.errors?.required" class="invalid-feedback">
+          <div *ngIf="f.password.errors?.required" class="invalid-feedback">
             Senha é obrigatória.
           </div>
-          <div *ngIf="f.senha.errors?.minlength" class="invalid-feedback">
-            Senha deve ter pelo menos 8 caracteres.
+          <div *ngIf="f.password.errors?.minlength" class="invalid-feedback">
+            Senha deve ter pelo menos 4 caracteres.
           </div>
         </div>
         <div class="form-group col-sm-6">
@@ -113,16 +115,23 @@
           <input
             class="form-control"
             [ngClass]="{
-              'is-invalid': f.confirmaSenha.errors && f.confirmaSenha.touched
+              'is-invalid':
+                f.confirmaPassword.errors && f.confirmaPassword.touched
             }"
             type="password"
             placeholder="Confirme a Senha"
-            formControlName="confirmaSenha"
+            formControlName="confirmaPassword"
           />
-          <div *ngIf="f.confirmaSenha.errors?.required" class="invalid-feedback">
+          <div
+            *ngIf="f.confirmaPassword.errors?.required"
+            class="invalid-feedback"
+          >
             A confirmação de senha é obrigatória.
           </div>
-          <div *ngIf="f.confirmaSenha.errors?.mustMatch" class="invalid-feedback">
+          <div
+            *ngIf="f.confirmaPassword.errors?.mustMatch"
+            class="invalid-feedback"
+          >
             As senhas devem ser as mesmas.
           </div>
         </div>
@@ -144,6 +153,7 @@
           <button
             class="btn btn-lg btn-success btn-block px-5"
             [disabled]="form.invalid"
+            type="submit"
           >
             Registrar
           </button>

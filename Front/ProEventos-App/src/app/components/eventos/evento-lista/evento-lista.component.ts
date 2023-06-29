@@ -87,7 +87,7 @@ export class EventoListaComponent implements OnInit {
   }
 
   retornaImagem(imagemURL: string): string {
-    return (imagemURL !== '')
+    return (imagemURL !== '' && imagemURL !== null)
       ? `${environment.apiUrl}resources/images/${imagemURL}`
       : 'assets/img/semImagem.jpeg';
   }
