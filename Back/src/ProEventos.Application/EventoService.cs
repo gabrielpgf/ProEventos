@@ -2,6 +2,7 @@ using AutoMapper;
 using ProEventos.Application.Dtos;
 using ProEventos.Application.Interfaces;
 using ProEventos.Domain;
+using ProEventos.Persistence.Helpers;
 using ProEventos.Persistence.Interfaces;
 
 namespace ProEventos.Application
@@ -18,7 +19,7 @@ namespace ProEventos.Application
             _mapper = mapper;
         }
         public async Task<EventoDto> AddEventos(int userId, EventoDto model)
-        {            
+        {
             try
             {
                 var evento = _mapper.Map<Evento>(model);
@@ -40,12 +41,12 @@ namespace ProEventos.Application
         }
 
         public async Task<EventoDto> UpdateEvento(int userId, int eventoId, EventoDto model)
-        {            
+        {
             try
-            {                
+            {
                 var evento = await _eventoPersist.GetEventoByIdAsync(userId, eventoId, false);
                 if (evento == null) return null;
-                
+
                 model.Id = evento.Id;
                 model.UserId = userId;
 
@@ -83,14 +84,19 @@ namespace ProEventos.Application
             }
         }
 
-        public async Task<EventoDto[]> GetAllEventosAsync(int userId, bool includePalestrantes = false)
+        public async Task<PageList<EventoDto>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes = false)
         {
             try
             {
-                var eventos = await _eventoPersist.GetAllEventosAsync(userId, includePalestrantes);
+                var eventos = await _eventoPersist.GetAllEventosAsync(userId, pageParams, includePalestrantes);
                 if (eventos == null) return null;
 
-                var resultado = _mapper.Map<EventoDto[]>(eventos);
+                var resultado = _mapper.Map<PageList<EventoDto>>(eventos);
+
+                resultado.CurrentPage = eventos.CurrentPage;
+                resultado.TotalPages = eventos.TotalPages;
+                resultado.PageSize = eventos.PageSize;
+                resultado.TotalCount = eventos.TotalCount;
 
                 return resultado;
             }
@@ -98,24 +104,6 @@ namespace ProEventos.Application
             {
                 throw new Exception(e.Message);
             }
-        }
-
-        public async Task<EventoDto[]> GetAllEventosByTemaAsync(int userId, string tema, bool includePalestrantes = false)
-        {
-            try
-            {
-                var eventosPorTema = await _eventoPersist.GetAllEventosByTemaAsync(userId, tema, includePalestrantes);
-                if (eventosPorTema == null) return null;
-
-                var resultado = _mapper.Map<EventoDto[]>(eventosPorTema);
-
-                return resultado;
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-
         }
 
         public async Task<EventoDto> GetEventoByIdAsync(int userId, int eventoId, bool includePalestrantes = false)
@@ -126,7 +114,7 @@ namespace ProEventos.Application
                 if (evento == null) return null;
 
                 var resultado = _mapper.Map<EventoDto>(evento);
-                                
+
                 return resultado;
             }
             catch (Exception e)

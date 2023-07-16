@@ -1,4 +1,5 @@
 using ProEventos.Application.Dtos;
+using ProEventos.Persistence.Helpers;
 
 namespace ProEventos.Application.Interfaces
 {
@@ -6,10 +7,8 @@ namespace ProEventos.Application.Interfaces
     {
         Task<EventoDto> AddEventos(int userId, EventoDto model);
         Task<EventoDto> UpdateEvento(int userId, int eventoId, EventoDto model);
-        Task<bool> DeleteEvento(int userId, int EventoId);
-
-        Task<EventoDto[]> GetAllEventosByTemaAsync(int userId, string tema, bool includePalestrantes = false);
-        Task<EventoDto[]> GetAllEventosAsync(int userId, bool includePalestrantes = false);
+        Task<bool> DeleteEvento(int userId, int EventoId);        
+        Task<PageList<EventoDto>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes = false);
         Task<EventoDto> GetEventoByIdAsync(int userId, int eventoId, bool includePalestrantes = false);
     }
 }

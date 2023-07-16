@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProEventos.API.Extensions;
 using ProEventos.Application.Dtos;
 using ProEventos.Application.Interfaces;
+using ProEventos.Persistence.Helpers;
 using System.IO;
 
 namespace ProEventos.API.Controllers;
@@ -25,12 +26,18 @@ public class EventosController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery]PageParams pageParams) //ESTUDAR SOBRE [FromQuery]
+
+
+    // VIOLA O PRINCÍPIO SOLID, POIS ESTA CLASSE VEM DA CAMADA DE PERSISTÊNCIA, QUANDO ELA DEVERIA VIR DA CAMADA DE APLICAÇÃO.
+    //SUGESTÃO DADA PELO PROFESSOR: CRIAR UMA DTO DE PageParamsDTO EM APP, MAPEÁ-LA COM PageParams E USÁ-LA AQUI
     {
         try
         {
-            var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), true);
+            var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), pageParams, true);
             if (eventos == null) return NoContent();
+
+            Response.AddPagination(eventos.CurrentPage, eventos.PageSize, eventos.TotalCount, eventos.TotalPages);
 
             return Ok(eventos);
         }
@@ -53,22 +60,7 @@ public class EventosController : ControllerBase
         {
             return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar eventos. Mensagem: {e.Message}");
         }
-    }
-
-    [HttpGet("{tema}/tema")]
-    public async Task<IActionResult> GetByTema(string tema)
-    {
-        try
-        {
-            var eventoPorTema = await _eventoService.GetAllEventosByTemaAsync(User.GetUserId(), tema, false);
-            if (eventoPorTema == null) return NoContent();
-            return Ok(eventoPorTema);
-        }
-        catch (Exception e)
-        {
-            return this.StatusCode(StatusCodes.Status500InternalServerError, $"Erro ao tentar recuperar eventos. Mensagem: {e.Message}");
-        }
-    }
+    }    
 
     [HttpPost("upload-image/{eventoId}")]
     public async Task<IActionResult> UploadImage(int eventoId)
