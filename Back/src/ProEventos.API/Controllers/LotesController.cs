@@ -31,13 +31,13 @@ public class LotesController : ControllerBase
         }
     } 
     
-    [HttpPut("{eventoId}")]
-    public async Task<IActionResult> Put(int eventoId, LoteDto[] models)
+    [HttpPut("evento/{eventoId}")]
+    public async Task<IActionResult> SaveLotes(int eventoId, LoteDto[] models)
     {
         try
         {
             var lotes = await _loteService.SaveLotes(eventoId, models);
-            if (lotes == null) return BadRequest("Erro ao tentar recuperar lote por este código");
+            if (lotes == null) return NoContent();
 
             return Ok(lotes);
         }
